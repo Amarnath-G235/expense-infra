@@ -48,9 +48,14 @@ pipeline {
             }
         }
 
-        // stage ('Starting ART job') {
-        //     build job: 'RunArtInTest', parameters: [[$class: 'StringParameterValue', name: 'systemname', value: systemname]]
-        // }
+        stage('Destroy VPC') {
+            when {
+                expression { params.action == 'destroy' }
+            }
+            steps{
+                build job: '00-vpc', parameters: [string(name: 'ACTION', value: 'destroy')], wait: false  
+            }
+        }    
     }
 
      post {
