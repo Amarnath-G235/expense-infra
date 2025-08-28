@@ -19,7 +19,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 70-ecr
                         terraform init -reconfigure
                         terraform plan -out=tfplan
                     """
@@ -28,14 +28,14 @@ pipeline {
         }
 
         stage('Apply and Destroy') {
-            // input {
-            //     message "should we continue to ${params.ACTION}"
-            //     ok "yes, we should."
-            // }
+            input {
+                message "should we continue to ${params.ACTION}"
+                ok "yes, we should."
+            }
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 70-ecr
                         if [ ${params.ACTION} == 'apply' ]
                         then 
                             terraform apply -auto-approve tfplan
@@ -45,14 +45,6 @@ pipeline {
                         fi
                     """
                 }
-            }
-        }
-        stage('Trigger SG') {       // It triggers downstream job after 'apply' completed
-             when {
-                expression { params.ACTION == 'apply' }
-            }
-            steps{
-                build job: '10-sg', parameters: [string(name: 'ACTION', value: 'apply')], wait: false  
             }
         }    
     }
