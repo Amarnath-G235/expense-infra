@@ -16,7 +16,7 @@ variable "common_tags" {
 
 variable "ingress_alb_tags" {
   default = {
-    component = "ingress_alb"
+    component = "web_alb"
   }
 }
 

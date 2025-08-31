@@ -14,6 +14,11 @@ variable "common_tags" {
   }
 }
 
+variable "frontend_tags" {
+    default = {
+        Component = "frontend"
+    }
+}
 
 variable "zone_name" {
   default = "ukom81s.online"

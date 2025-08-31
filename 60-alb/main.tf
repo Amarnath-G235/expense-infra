@@ -3,7 +3,7 @@ module "ingress_alb" {
   source = "terraform-aws-modules/alb/aws"
   
   internal = false
-  name    = "${var.project_name}-${var.environment}-ingress-alb" # expense-dev-ingress-alb
+  name    = "${local.resource_name}-ingress-alb" # expense-dev-ingress-alb
   vpc_id  = local.vpc_id
   subnets = local.public_subnet_id
   security_groups = [data.aws_ssm_parameter.ingress_alb_sg_id.value]
@@ -85,13 +85,13 @@ resource "aws_lb_target_group" "expense" {
     interval = 5
     matcher = "200-299"
     path = "/"
-    port = 80
+    port = 8080
     protocol = "HTTP"
     timeout = 4
   }
 }
 
-resource "aws_lb_listener_rule" "expense" {
+resource "aws_lb_listener_rule" "frontend" {
   listener_arn = aws_lb_listener.https.arn 
   priority     = 100 # low priority will be evaluated first
 

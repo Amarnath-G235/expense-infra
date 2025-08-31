@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Apply and Destroy') {
+        stage('Apply or Destroy') {
             // input {
             //     message "should we continue to ${params.ACTION}"
             //     ok "yes, we should."

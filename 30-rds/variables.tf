@@ -14,9 +14,12 @@ variable "common_tags" {
   }
 }
 
-variable "bastion_tags" {
-    default = {
-        Component = "bastion"
-    }
+variable "rds_tags" {
+  default = {
+    component = "mysql"
+  }
 }
 
+variable "zone_name" {
+  default = "ukom81s.online"
+}

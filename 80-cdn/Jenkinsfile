@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Destroy') {
+        /*stage('Destroy') {
             when {
                 expression { params.ACTION == 'destroy' }
             }
@@ -70,10 +70,9 @@ pipeline {
                         build job: '20-bastion', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
                     }
                 }
-
             }
-        } 
-        /*stage('Destroy'){
+        } */
+        stage('Destroy'){
             when {
                 expression { params.ACTION == 'destroy' }
             }
@@ -93,9 +92,9 @@ pipeline {
                     }
                 }
             }
-        } */
+        } 
         
-        stage('Sequential') {
+        /* stage('Sequential') {
             when {
                 expression { params.ACTION == 'destroy' }
             }
@@ -118,7 +117,7 @@ pipeline {
                 }
             }
                 
-        } 
+        } */
         
     }
 

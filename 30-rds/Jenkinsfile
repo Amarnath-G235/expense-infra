@@ -19,7 +19,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 40-eks
+                        cd 30-rds
                         terraform init -reconfigure
                         terraform plan -out=tfplan
                     """
@@ -28,16 +28,16 @@ pipeline {
         }
 
         stage('Apply or Destroy') {
-            input {
-                message "should we continue to ${params.ACTION}"
-                ok "yes, we should."
-            }
+            /* input {
+                message "Should we continue to ${params.ACTION}"
+                ok "Yes, we should."
+            } */
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 40-eks
+                        cd 30-rds
                         if [ ${params.ACTION} == 'apply' ]
-                        then 
+                        then
                             terraform apply -auto-approve tfplan
                         elif [ ${params.ACTION} == 'destroy' ]
                         then
@@ -46,10 +46,12 @@ pipeline {
                     """
                 }
             }
-        }    
+        }
+        
+
     }
 
-     post {
+    post {
         always{
             echo "This sections runs always"
             deleteDir()
